@@ -1,6 +1,18 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 
 import React, { useState } from "react";
+
+import {
+  useExchangePrice,
+  useGasPrice,
+  useUserProvider,
+  useContractLoader,
+  useContractReader,
+  useEventListener,
+  useBalance,
+  useExternalContractLoader,
+} from "../hooks";
+
 import { Button, List, Divider, Input, Card, DatePicker, Slider, Switch, Progress, Spin } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
 import { Address, Balance } from "../components";
@@ -8,7 +20,7 @@ import { parseEther, formatEther } from "@ethersproject/units";
 
 export default function ExampleUI({
   purpose,
-  setPurposeEvents,
+  // setPurposeEvents,
   address,
   mainnetProvider,
   userProvider,
@@ -20,6 +32,10 @@ export default function ExampleUI({
   writeContracts,
 }) {
   const [newPurpose, setNewPurpose] = useState("loading...");
+
+    //📟 Listen for broadcast events
+    const setPurposeEvents = useEventListener(readContracts, "YourContract", "SetPurpose", localProvider, 1);
+    console.log("📟 SetPurpose events:", setPurposeEvents);
 
   return (
     <div>

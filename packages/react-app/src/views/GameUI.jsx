@@ -5,6 +5,18 @@ import { Button, List, Divider, Input, Card, DatePicker, Slider, Switch, Progres
 import { SyncOutlined } from "@ant-design/icons";
 import { Address, Balance } from "../components";
 import { parseEther, formatEther } from "@ethersproject/units";
+
+import {
+  useExchangePrice,
+  useGasPrice,
+  useUserProvider,
+  useContractLoader,
+  useContractReader,
+  useEventListener,
+  useBalance,
+  useExternalContractLoader,
+} from "../hooks";
+
 import GameCanvas from "../components/GameCanvas"
 
 export default function GameUI({
@@ -21,6 +33,10 @@ export default function GameUI({
   writeContracts,
 }) {
   const [newPurpose, setNewPurpose] = useState("loading...");
+
+    //📟 Listen for broadcast events
+    const mockGameEvents = useEventListener(readContracts, "MockGameActions", "SetAction", localProvider, 1);
+    console.log("📟 GameUI SetAction events:", mockGameEvents);
 
   return (
     <div>
@@ -40,7 +56,7 @@ export default function GameUI({
         <h2>Events:</h2>
         <List
           bordered
-          dataSource={setPurposeEvents}
+          dataSource={mockGameEvents}
           renderItem={item => {
             return (
               <List.Item key={item.blockNumber + "_" + item.sender + "_" + item.purpose}>

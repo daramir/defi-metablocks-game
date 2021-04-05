@@ -74,6 +74,7 @@ const TileMaterials = props => {
           // console.log(unpTileTextures)
           let tile = (
             <mesh
+            key={`[${row}][${col}]`}
               position={[
                 col * BoardMeasures.SQUARE_SIZE + BoardMeasures.SQUARE_SIZE / 2,
                 -0.01,
