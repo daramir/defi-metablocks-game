@@ -300,7 +300,16 @@ function App(props) {
               blockExplorer={blockExplorer}
             />
 
-            {/* uncomment for a second contract:
+            <Contract
+              name="MockGameActions"
+              signer={userProvider.getSigner()}
+              provider={localProvider}
+              // address={address}
+              blockExplorer={blockExplorer}
+            />
+           
+
+            {/* uncomment for a third contract:
             <Contract
               name="SecondContract"
               signer={userProvider.getSigner()}
