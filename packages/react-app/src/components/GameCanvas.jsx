@@ -7,6 +7,7 @@ import BoardMaterials from "./Board";
 import five from "../ethereumLogo.png";
 import GroundMaterial from "./GroundMaterial";
 import TileMaterials, { TileMeshgroupWithFallback } from "./TileMaterials";
+import PlayerFactory from "./PlayerFactory";
 
 const Box = props => {
   const mesh = useRef();
@@ -69,7 +70,14 @@ const GameCanvas = () => {
       <TileMeshgroupWithFallback />
       <Box position={[-1.2, 0, 0]} />
       <Box position={[2.5, 0, 0]} />
-      <OrbitControls target={[BoardMeasures.SQUARE_SIZE * BoardSizes.SIZE / 2, -6, BoardMeasures.SQUARE_SIZE * BoardSizes.SIZE / 2]} />
+      <PlayerFactory position={[5, 0, 1]} />
+      <OrbitControls
+        target={[
+          (BoardMeasures.SQUARE_SIZE * BoardSizes.SIZE) / 2,
+          -6,
+          (BoardMeasures.SQUARE_SIZE * BoardSizes.SIZE) / 2,
+        ]}
+      />
     </Canvas>
   );
 };
