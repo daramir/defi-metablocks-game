@@ -13,8 +13,8 @@ export default function Model(props) {
   const group = useRef()
   const { nodes, materials } = useGLTF('/player_models/ledger/model_player_ledger.gltf')
   return (
-    <group ref={group} {...props} dispose={null}>
-      <group rotation={[-Math.PI / 3, Math.PI, Math.PI ]}>
+    <group ref={group} {...props} scale={[3,3,3]} dispose={null}>
+      <group rotation={[-Math.PI / 3, Math.PI /2, Math.PI / 8 ]}>
         <mesh geometry={nodes.mesh_0.geometry} material={materials['Glass_-_Heavy_Color']} />
         <mesh geometry={nodes.mesh_1.geometry} material={materials['Stainless_Steel_-_Brushed_Linear_Long']} />
         <mesh geometry={nodes.mesh_2.geometry} material={materials['Plastic_-_Matte_Black']} />
