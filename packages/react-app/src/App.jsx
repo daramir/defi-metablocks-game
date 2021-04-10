@@ -48,7 +48,7 @@ import { INFURA_ID, DAI_ADDRESS, DAI_ABI, NETWORK, NETWORKS } from "./constants"
 */
 
 /// 📡 What chain are your contracts deployed to?
-const targetNetwork = NETWORKS["localhost"]; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+const targetNetwork = NETWORKS["mumbai"]; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
 const DEBUG = true;
@@ -138,7 +138,8 @@ function App(props) {
   //📟 Listen for broadcast events
   // const setPurposeEvents = useEventListener(readContracts, "YourContract", "SetPurpose", localProvider, 1);
   // console.log("📟 SetPurpose events:", setPurposeEvents);
-
+     const rollEvents = useEventListener(readContracts, "RandomNumberConsumer", "Roll", localProvider, 1);
+     console.log("🎲 Roll events:", rollEvents);
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
   console.log("🏷 Resolved austingriffith.eth as:",addressFromENS)
@@ -305,6 +306,14 @@ function App(props) {
               signer={userProvider.getSigner()}
               provider={localProvider}
               // address={address}
+              blockExplorer={blockExplorer}
+            />
+
+            <Contract
+              name="RandomNumberConsumer"
+              signer={userProvider.getSigner()}
+              provider={localProvider}
+              address={address}
               blockExplorer={blockExplorer}
             />
            
