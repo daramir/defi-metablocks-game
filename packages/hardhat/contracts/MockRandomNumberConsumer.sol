@@ -3,14 +3,14 @@ pragma solidity >=0.6.0 <0.8.0;
 
 import "@chainlink/contracts/src/v0.6/VRFConsumerBase.sol";
 
-contract RandomNumberConsumer is VRFConsumerBase {
+contract MockRandomNumberConsumer is VRFConsumerBase {
 
     bytes32 internal keyHash;
     uint256 internal fee;
 
     uint256 public randomResult;
 
-    event Roll (uint8 roll1, uint8 roll2, uint8 roll3, uint8 roll4, uint8 roll5, uint8 roll6, uint8 roll7, uint8 roll8);
+    event Roll (uint8 roll1, uint8 roll2, uint8 roll3, uint8 roll4, uint8 roll5, uint8 roll6);
 
     constructor()
     VRFConsumerBase(
@@ -44,17 +44,16 @@ contract RandomNumberConsumer is VRFConsumerBase {
 
         require(LINK.balanceOf(address(this)) >= fee, "Not enough LINK - fill contract with faucet");
 
-        bytes32 requestId = requestRandomness(keyHash, fee, userProvidedSeed);
+        // bytes32 requestId = requestRandomness(keyHash, fee, userProvidedSeed);
+        bytes32 requestId = keccak256(abi.encodePacked(bytes32(block.timestamp), userProvidedSeed, block.number));
 
         emit Roll(
-            uint8(requestId[0]) % 6,
-            uint8(requestId[1]) % 6,
-            uint8(requestId[2]) % 6,
-            uint8(requestId[3]) % 6,
-            uint8(requestId[4]) % 6,
-            uint8(requestId[5]) % 6,
-            uint8(requestId[6]) % 6,
-            uint8(requestId[7]) % 6
+            uint8(1),
+            uint8(2),
+            uint8(3),
+            uint8(4),
+            uint8(5),
+            uint8(6)
         );
 
         return requestId;
@@ -64,6 +63,13 @@ contract RandomNumberConsumer is VRFConsumerBase {
      * Callback function used by VRF Coordinator
      */
     function fulfillRandomness(bytes32 requestId, uint256 randomness) internal override {
+        randomResult = randomness;
+    }
+
+    /**
+     * Callback function used by VRF Coordinator
+     */
+    function mockFulfillRandomness(bytes32 requestId, uint256 randomness) external {
         randomResult = randomness;
     }
 }
