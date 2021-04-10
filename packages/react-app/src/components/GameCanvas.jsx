@@ -30,9 +30,15 @@ const Box = props => {
   );
 };
 
-const GameCanvas = () => {
+const GameCanvas = ({
+  address,
+  mainnetProvider,
+  userProvider,
+  localProvider,
+  readContracts
+}) => {
   return (
-    <div style={{ height: 1200, paddingBottom: 32 }}>
+    <div style={{ height: 1000, paddingBottom: 32 }}>
       <Canvas
         camera={{
           fov: 25,
@@ -71,7 +77,7 @@ const GameCanvas = () => {
         <TileMeshgroupWithFallback />
         <Box position={[-1.2, 0, 0]} />
         <Box position={[2.5, 0, 0]} />
-        <PlayerFactory position={[5, 2, 1]} />
+        <PlayerFactory type="LedgerNano" position={[5, 1.7, 1]} localProvider={localProvider} />
         <OrbitControls
           target={[
             (BoardMeasures.SQUARE_SIZE * BoardSizes.SIZE) / 2,

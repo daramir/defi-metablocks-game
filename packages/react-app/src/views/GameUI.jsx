@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 
 import React, { useState } from "react";
-import { Button, List, Divider, Input, Card, DatePicker, Slider, Switch, Progress, Spin } from "antd";
+import { Button, List, Card, DatePicker, Slider, Switch, Progress, Spin } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
-import { Address, Balance } from "../components";
+import { Address } from "../components";
 import { parseEther, formatEther } from "@ethersproject/units";
 
 import {
@@ -17,7 +17,7 @@ import {
   useExternalContractLoader,
 } from "../hooks";
 
-import GameCanvas from "../components/GameCanvas"
+import GameCanvas from "../components/GameCanvas";
 
 export default function GameUI({
   purpose,
@@ -34,19 +34,18 @@ export default function GameUI({
 }) {
   const [newPurpose, setNewPurpose] = useState("loading...");
 
-    //📟 Listen for broadcast events
-    const mockGameEvents = useEventListener(readContracts, "MockGameActions", "SetAction", localProvider, 1);
-    console.log("📟 GameUI SetAction events:", mockGameEvents);
+  //📟 Listen for broadcast events
+  // const mockGameEvents = useEventListener(readContracts, "MockGameActions", "SetActionss", localProvider, 1);;
+  const mockGameEvents = useEventListener(readContracts, "MockGameActions", "SetAction", localProvider, 1);
+  console.log("📟 GameUI SetAction events:", mockGameEvents);
 
   return (
     <div>
       {/*
         ⚙️ Here is an example UI that displays and sets the purpose in your smart contract:
       */}
-      
-        <GameCanvas />
-      
 
+      <GameCanvas localProvider={localProvider} />
 
       {/*
         📑 Maybe display a list of events?
