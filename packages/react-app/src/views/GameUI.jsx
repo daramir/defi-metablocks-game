@@ -35,7 +35,6 @@ export default function GameUI({
   const [newPurpose, setNewPurpose] = useState("loading...");
 
   //📟 Listen for broadcast events
-  // const mockGameEvents = useEventListener(readContracts, "MockGameActions", "SetActionss", localProvider, 1);;
   const mockGameEvents = useEventListener(readContracts, "MockGameActions", "SetAction", localProvider, 1);
   console.log("📟 GameUI SetAction events:", mockGameEvents);
 
@@ -45,7 +44,7 @@ export default function GameUI({
         ⚙️ Here is an example UI that displays and sets the purpose in your smart contract:
       */}
 
-      <GameCanvas localProvider={localProvider} />
+      <GameCanvas localProvider={localProvider} gameEvents={mockGameEvents} />
 
       {/*
         📑 Maybe display a list of events?

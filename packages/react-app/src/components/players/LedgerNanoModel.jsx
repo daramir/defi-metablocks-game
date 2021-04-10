@@ -6,21 +6,25 @@ source: https://sketchfab.com/3d-models/ledger-nano-s-48460b4b82724e9b8d03c0c357
 title: Ledger Nano S
 */
 
-import React, { useRef } from 'react'
+import React, { useMemo, useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
+
+import { a, useSpring } from '@react-spring/three'
 
 export default function Model(props) {
   const group = useRef()
   const { nodes, materials } = useGLTF('/player_models/ledger/model_player_ledger.gltf')
+
+  const baseScale = useMemo(() => [4,4,4], []);
   return (
-    <group ref={group} {...props} scale={[3,3,3]} dispose={null}>
+    <a.group ref={group} {...props} scale={baseScale} dispose={null}>
       <group rotation={[-Math.PI / 3, Math.PI /2, Math.PI / 8 ]}>
         <mesh geometry={nodes.mesh_0.geometry} material={materials['Glass_-_Heavy_Color']} />
         <mesh geometry={nodes.mesh_1.geometry} material={materials['Stainless_Steel_-_Brushed_Linear_Long']} />
         <mesh geometry={nodes.mesh_2.geometry} material={materials['Plastic_-_Matte_Black']} />
         <mesh geometry={nodes.mesh_3.geometry} material={materials['Steel_-_Satin']} />
       </group>
-    </group>
+    </a.group>
   )
 }
 
