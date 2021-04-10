@@ -1,16 +1,14 @@
-pragma solidity 0.5.17;
+pragma solidity >=0.7.3;
+//SPDX-License-Identifier: MIT
 
-import {DepositLiquidation} from "./DepositLiquidation.sol";
-import {DepositUtils} from "./DepositUtils.sol";
-import {DepositFunding} from "./DepositFunding.sol";
-import {DepositRedemption} from "./DepositRedemption.sol";
-import {DepositStates} from "./DepositStates.sol";
-import {ITBTCSystem} from "../interfaces/ITBTCSystem.sol";
-import {IERC721} from "openzeppelin-solidity/contracts/token/ERC721/IERC721.sol";
-import {TBTCToken} from "../system/TBTCToken.sol";
-import {FeeRebateToken} from "../system/FeeRebateToken.sol";
 
-import "../system/GameFactoryAuthority.sol";
+// import {DepositUtils} from "./DepositUtils.sol";
+// import {DepositStates} from "./DepositStates.sol";
+// import {ITBTCSystem} from "../interfaces/ITBTCSystem.sol";
+// import {IERC721} from "openzeppelin-solidity/contracts/token/ERC721/IERC721.sol";
+// import {TBTCToken} from "../system/TBTCToken.sol";
+
+import "./system/GameFactoryAuthority.sol";
 
 // solium-disable function-order
 // Below, a few functions must be public to allow bytes memory parameters, but
@@ -81,26 +79,26 @@ contract MetablocksGame is GameFactoryAuthority {
     ///                         required to send. This is also the amount of
     ///                         TBTC the TDT holder will be eligible to mint:
     ///                         (10**7 satoshi == 0.1 BTC == 0.1 TBTC).
-    function initializeGame(
-        ITBTCSystem _tbtcSystem,
-        TBTCToken _tbtcToken,
-        IERC721 _tbtcDepositToken,
-        FeeRebateToken _feeRebateToken,
-        address _vendingMachineAddress,
-        uint64 _lotSizeSatoshis
-    ) public onlyFactory payable {
-        self.tbtcSystem = _tbtcSystem;
-        self.tbtcToken = _tbtcToken;
-        self.tbtcDepositToken = _tbtcDepositToken;
-        self.feeRebateToken = _feeRebateToken;
-        self.vendingMachineAddress = _vendingMachineAddress;
-        self.initialize(_lotSizeSatoshis);
-    }
+    // function initializeGame(
+    //     ITBTCSystem _tbtcSystem,
+    //     TBTCToken _tbtcToken,
+    //     IERC721 _tbtcDepositToken,
+    //     FeeRebateToken _feeRebateToken,
+    //     address _vendingMachineAddress,
+    //     uint64 _lotSizeSatoshis
+    // ) public onlyFactory payable {
+    //     self.tbtcSystem = _tbtcSystem;
+    //     self.tbtcToken = _tbtcToken;
+    //     self.tbtcDepositToken = _tbtcDepositToken;
+    //     self.feeRebateToken = _feeRebateToken;
+    //     self.vendingMachineAddress = _vendingMachineAddress;
+    //     self.initialize(_lotSizeSatoshis);
+    // }
 
 
     /// @notice Withdraw the native token balance of the deposit allotted to the caller.
     /// @dev Withdrawals can only happen when a contract is in an end-state.
     function withdrawFunds() external {
-        self.withdrawFunds();
+        // self.withdrawFunds();
     }
 }

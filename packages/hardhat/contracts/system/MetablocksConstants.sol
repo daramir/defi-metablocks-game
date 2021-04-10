@@ -1,5 +1,4 @@
 pragma solidity >=0.7.3;
-
 //SPDX-License-Identifier: MIT
 
 library MetablocksConstants {
