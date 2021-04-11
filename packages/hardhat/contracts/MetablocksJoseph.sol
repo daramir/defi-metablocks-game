@@ -72,6 +72,12 @@ contract MetablocksJoseph {
         playerMapping[msg.sender].positionOnBoard = 0;
         // Monoply Rule: Each player is given $1500
         playerMapping[msg.sender].balance = 1500;
+
+        playerMapping[msg.sender].avatar = avatars[
+            gameMapping[playerMapping[msg.sender].gameHostAddress]
+                .players
+                .length
+        ];
     }
 
     mapping(address => Player) public playerMapping;
@@ -103,12 +109,15 @@ contract MetablocksJoseph {
         myGame.creatorAddress = msg.sender;
         gameMapping[msg.sender] = myGame;
         gameMapping[msg.sender].players.push(msg.sender);
-        playerMapping[msg.sender].avatar = avatars[
-            gameMapping[msg.sender].players.length
-        ];
         hostMapping[name] = msg.sender;
 
         setupPlayer(name);
+        emit PlayerJoined(
+            name,
+            msg.sender,
+            playerMapping[msg.sender].avatar,
+            "Let's play Metablocks"
+        );
     }
 
     function joinGame(string memory name) public {
@@ -133,6 +142,13 @@ contract MetablocksJoseph {
         gameMapping[hostMapping[name]].players.push(msg.sender);
 
         setupPlayer(name);
+
+        emit PlayerJoined(
+            name,
+            msg.sender,
+            playerMapping[msg.sender].avatar,
+            "Let's do it"
+        );
     }
 
     function startGame() public {
