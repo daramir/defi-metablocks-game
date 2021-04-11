@@ -7,25 +7,12 @@ import { Row, Col, Button, Menu, Alert, Switch as SwitchD } from "antd";
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { useUserAddress } from "eth-hooks";
-import {
-  useExchangePrice,
-  useGasPrice,
-  useUserProvider,
-  useContractLoader,
-  useContractReader,
-  useEventListener,
-  useBalance,
-  useExternalContractLoader,
-} from "./hooks";
+import { useExchangePrice, useGasPrice, useUserProvider, useContractLoader, useContractReader, useEventListener, useBalance, useExternalContractLoader } from "./hooks";
 import { Header, Account, Faucet, Ramp, Contract, GasGauge, ThemeSwitch } from "./components";
 import { Transactor } from "./helpers";
 import { formatEther, parseEther } from "@ethersproject/units";
 //import Hints from "./Hints";
-import { 
-  Hints, 
-  ExampleUI, 
-  GameUI,
-  Subgraph } from "./views";
+import { Hints, ExampleUI, GameUI,Subgraph } from "./views";
 import { useThemeSwitcher } from "react-css-theme-switcher";
 import { INFURA_ID, DAI_ADDRESS, DAI_ABI, NETWORK, NETWORKS } from "./constants";
 /*
@@ -47,6 +34,7 @@ import { INFURA_ID, DAI_ADDRESS, DAI_ABI, NETWORK, NETWORKS } from "./constants"
     (and then use the `useExternalContractLoader()` hook!)
 */
 
+
 /// 📡 What chain are your contracts deployed to?
 const targetNetwork = NETWORKS["mumbai"]; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
@@ -65,11 +53,12 @@ const mainnetInfura = new JsonRpcProvider("https://mainnet.infura.io/v3/" + INFU
 
 // 🏠 Your local provider is usually pointed at your local blockchain
 const localProviderUrl = targetNetwork.rpcUrl;
+console.log(localProviderUrl)
 // as you deploy to other networks you can set REACT_APP_PROVIDER=https://dai.poa.network in packages/react-app/.env
 const localProviderUrlFromEnv = process.env.REACT_APP_PROVIDER ? process.env.REACT_APP_PROVIDER : localProviderUrl;
 if (DEBUG) console.log("🏠 Connecting to provider:", localProviderUrlFromEnv);
 const localProvider = new JsonRpcProvider(localProviderUrlFromEnv);
-
+console.log("-------: ", localProvider)
 // 🔭 block explorer URL
 const blockExplorer = targetNetwork.blockExplorer;
 
@@ -134,12 +123,20 @@ function App(props) {
   // keep track of a variable from the contract in the local React state:
   const purpose = useContractReader(readContracts, "YourContract", "purpose");
   console.log("🤗 purpose:", purpose);
+  console.log("🤗 contracts:", readContracts);
 
   //📟 Listen for broadcast events
-  // const setPurposeEvents = useEventListener(readContracts, "YourContract", "SetPurpose", localProvider, 1);
-  // console.log("📟 SetPurpose events:", setPurposeEvents);
-     const rollEvents = useEventListener(readContracts, "RandomNumberConsumer", "Roll", localProvider, 1);
-     console.log("🎲 Roll events:", rollEvents);
+  const setPurposeEvents = useEventListener(readContracts, "YourContract", "SetPurpose", localProvider, 1);
+  console.log("📟 SetPurpose events:", setPurposeEvents);
+
+ const rollEvents = useEventListener(readContracts, "RandomNumberConsumer", "Roll", localProvider, 1);
+ console.log("🎲 Roll events:", rollEvents);
+
+  const diceRolledEvents = useEventListener(readContracts, "DiceRoll", "DiceRolled", localProvider, 1);
+  console.log("🎲 DiceRolled events:", diceRolledEvents);
+
+   const diceLandedEvents = useEventListener(readContracts, "DiceRoll", "DiceLanded", localProvider, 1);
+   console.log("🎲 DiceLanded events:", diceLandedEvents);
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
   console.log("🏷 Resolved austingriffith.eth as:",addressFromENS)
@@ -311,6 +308,14 @@ function App(props) {
 
             <Contract
               name="RandomNumberConsumer"
+              signer={userProvider.getSigner()}
+              provider={localProvider}
+              address={address}
+              blockExplorer={blockExplorer}
+            />
+
+            <Contract
+              name="DiceRoll"
               signer={userProvider.getSigner()}
               provider={localProvider}
               address={address}
