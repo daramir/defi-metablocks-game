@@ -13,6 +13,7 @@ interface IMetablocksSystem {
     // function getCurrentPlayerAddress() external view returns (address);
     // function getPlayerPosition() external view returns (uint16);
     // function getCurrentTurnTimeout() external view returns (uint256);
+    function getAllowNewGames() external view returns (bool);
     function isAllowedLotSize(uint64 _requestedLotSizeSatoshis) external view returns (bool);
     // function insertCoinCreateGame() external payable returns (address);
 }

@@ -139,7 +139,7 @@ contract MetablocksSystem is Ownable, IMetablocksSystem
 
     /// @notice Returns whether new Games should be allowed.
     /// @return True if new Games should be allowed by the emergency pause button
-    function getAllowNewGames() external view returns (bool) {
+    function getAllowNewGames() external view override returns (bool) {
         return allowNewGames;
     }
 

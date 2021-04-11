@@ -27,11 +27,9 @@ library GameUtilsAndStruct {
         
         address gameOwner;
         uint64 lotSizeSatoshis;
-        uint8 currentState;
-        uint16 signerFeeDivisor;
+        uint8 currentState; // managed in GameStates
+        
         uint16 initialCollateralizedPercent;
-        uint16 undercollateralizedThresholdPercent;
-        uint16 severelyUndercollateralizedThresholdPercent;
         uint256 keepSetupFee;
 
         // SET ON FRAUD
@@ -355,5 +353,46 @@ library GameUtilsAndStruct {
         // }
 
         return 0;
+    }
+
+    //------------------------------ GAME FUNDING ------------------------------//
+
+    /// @notice Internally called function to set up a newly created Game
+    ///         instance. This should not be called by developers, use
+    ///         `GameFactory.createGame` to create a new Game.
+    /// @dev If called directly, the transaction will revert since the call will
+    ///      be executed on an already set-up instance.
+    /// @param _d Game storage pointer.
+    function initialize(
+        GameUtilsAndStruct.Game storage _d
+        // uint64 _lotSizeSatoshis
+    ) public {
+        require(_d.metablocksSystem.getAllowNewGames(), "New Games aren't allowed.");
+        require(_d.inStart(), "Deposit setup already requested");
+
+        // _d.lotSizeSatoshis = _lotSizeSatoshis;
+
+        // _d.keepSetupFee = _d.tbtcSystem.getNewDepositFeeEstimate();
+
+        // Note: this is a library, and library functions cannot be marked as
+        // payable. Thus, we disable Solium's check that msg.value can only be
+        // used in a payable function---this restriction actually applies to the
+        // caller of this `initialize` function, Deposit.initializeDeposit.
+        /* solium-disable-next-line value-in-payable */
+        // _d.keepAddress = _d.tbtcSystem.requestNewKeep.value(msg.value)(
+        //     _lotSizeSatoshis,
+        //     TBTCConstants.getDepositTerm()
+        // );
+
+        // require(_d.fetchBondAmount() >= _d.keepSetupFee, "Insufficient signer bonds to cover setup fee");
+
+        // _d.signerFeeDivisor = _d.tbtcSystem.getSignerFeeDivisor();
+        // _d.undercollateralizedThresholdPercent = _d.tbtcSystem.getUndercollateralizedThresholdPercent();
+        // _d.severelyUndercollateralizedThresholdPercent = _d.tbtcSystem.getSeverelyUndercollateralizedThresholdPercent();
+        // _d.initialCollateralizedPercent = _d.tbtcSystem.getInitialCollateralizedPercent();
+        // _d.signingGroupRequestedAt = block.timestamp;
+
+        _d.setCreated();
+        // _d.logCreated(_d.keepAddress);
     }
 }
