@@ -1,4 +1,5 @@
 pragma solidity >=0.7.3;
+//SPDX-License-Identifier: MIT
 
 /// @title  Game Factory Authority
 /// @notice Contract to secure function calls to the Game Factory.
