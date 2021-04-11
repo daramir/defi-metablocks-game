@@ -17,7 +17,7 @@ contract DiceRoll is VRFConsumerBase {
     mapping(address => uint8) private results;
 
     event DiceRolled(bytes32 indexed requestId, address indexed roller);
-    event DiceLanded(bytes32 indexed requestId, address roller, uint8 indexed result);
+    event DiceLanded(bytes32 indexed requestId, address indexed roller, uint8 indexed result);
 
     //VRFConsumerBase(VRF Coordinator, LINK Token)
     constructor() public VRFConsumerBase(0x8C7382F9D8f56b33781fE506E897a4F1e2d17255, 0x326C977E6efc84E512bB9C30f76E30c160eD06FB)
@@ -45,5 +45,10 @@ contract DiceRoll is VRFConsumerBase {
         results[rollers[requestId]] = rollValue;
         mostRecentRoll = rollValue;
         emit DiceLanded(requestId, rollers[requestId], rollValue);
+    }
+
+    /// @notice Returns the latest dice roll.
+    function getMostRecentRoll() external view returns (uint8) {
+        return mostRecentRoll;
     }
 }

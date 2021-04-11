@@ -15,8 +15,8 @@ const main = async () => {
 
   // const randomNumberConsumer = await deploy("RandomNumberConsumer"); // <-- Chainllink VRF random number contract
 
-  // const diceRollPlugin = await deploy("DiceRoll"); // <-- Chainllink VRF random number contract
-  const diceRollPlugin = await deploy("MockDiceRoll"); // <-- Chainllink VRF random number contract
+  const diceRollPlugin = await deploy("DiceRoll"); // <-- Chainllink VRF random number contract
+  // const diceRollPlugin = await deploy("MockDiceRoll"); // <-- Chainllink VRF random number contract
 
   const metablocksSystemJoseph = await deploy("MetablocksJoseph",[diceRollPlugin.address]);
 

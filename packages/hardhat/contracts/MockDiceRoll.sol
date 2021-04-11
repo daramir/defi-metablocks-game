@@ -16,7 +16,7 @@ contract MockDiceRoll {
     mapping(address => uint8) private results;
 
     event DiceRolled(uint8 indexed requestId, address indexed roller);
-    event DiceLanded(uint8 indexed requestId, address roller, uint8 indexed result);
+    event DiceLanded(uint8 indexed requestId, address indexed roller, uint8 indexed result);
     
     //Mock RequestId
     uint8 public lclRequestId;
@@ -49,5 +49,10 @@ contract MockDiceRoll {
         results[rollers[requestId]] = rollValue;
         mostRecentRoll = rollValue;
         emit DiceLanded(requestId, rollers[requestId], rollValue);
+    }
+
+    /// @notice Returns the latest dice roll.
+    function getMostRecentRoll() external view returns (uint8) {
+        return mostRecentRoll;
     }
 }
