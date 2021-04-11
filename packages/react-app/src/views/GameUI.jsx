@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Button, List, Card, DatePicker, Slider, Switch, Progress, Spin } from "antd";
+import { Row, Col } from "antd";
 import { SyncOutlined } from "@ant-design/icons";
 import { Address } from "../components";
 import { parseEther, formatEther } from "@ethersproject/units";
@@ -43,28 +44,33 @@ export default function GameUI({
       {/*
         ⚙️ Here is an example UI that displays and sets the purpose in your smart contract:
       */}
-
-      <GameCanvas localProvider={localProvider} gameEvents={mockGameEvents} />
+      <Row>
+        <Col span={16}>
+          <GameCanvas localProvider={localProvider} gameEvents={mockGameEvents} />
+        </Col>
+        <Col span={8}>
+          <div style={{ width: 480, margin: "auto", marginTop: 32, paddingBottom: 32 }}>
+            <h2>Events:</h2>
+            <List
+              bordered
+              dataSource={mockGameEvents}
+              renderItem={item => {
+                return (
+                  <List.Item key={item.blockNumber + "_" + item.sender + "_" + item.purpose}>
+                    <Address address={item[0]} ensProvider={mainnetProvider} fontSize={16} /> =>
+                    {item[1]}
+                  </List.Item>
+                );
+              }}
+            />
+          </div>
+        </Col>
+      </Row>
 
       {/*
         📑 Maybe display a list of events?
           (uncomment the event and emit line in YourContract.sol! )
       */}
-      <div style={{ width: 600, margin: "auto", marginTop: 32, paddingBottom: 32 }}>
-        <h2>Events:</h2>
-        <List
-          bordered
-          dataSource={mockGameEvents}
-          renderItem={item => {
-            return (
-              <List.Item key={item.blockNumber + "_" + item.sender + "_" + item.purpose}>
-                <Address address={item[0]} ensProvider={mainnetProvider} fontSize={16} /> =>
-                {item[1]}
-              </List.Item>
-            );
-          }}
-        />
-      </div>
 
       <div style={{ width: 600, margin: "auto", marginTop: 32, paddingBottom: 256 }}>
         <Card>
