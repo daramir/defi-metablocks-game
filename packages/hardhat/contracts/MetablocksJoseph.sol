@@ -1,22 +1,28 @@
-pragma solidity ^0.8.0;
+pragma solidity >=0.7.6;
 //SPDX-License-Identifier: MIT
 
-contract Monopoly  {
+import {DiceRoll} from "./DiceRoll.sol";
+
+contract MetablocksJoseph  {
     
     address private owner;
+
+    DiceRoll private diceRollPlugin;
     
-    constructor() {
-        owner = msg.sender; 
+    constructor(address diceRollContract) {
+        owner = msg.sender;
+
+        diceRollPlugin = DiceRoll(diceRollContract);
         
         // Create land
         // createLand("Mayfair", 100);
         // createLand("Melbourne", 99);
         // createLand("Mildura", 98);
         
-        // Simulate player who wants to host game
-        createPlayer("jrocco2");
-        createGame("Joseph's Game", 2);
-        
+        // Step 1: Create player who wants to host game
+        // createPlayer("jrocco2");
+        // Step 2: Create game
+        // createGame("Joseph's Game", 2);        
     }
     
     // ----- PLAYERS ENTITY -----
@@ -37,7 +43,7 @@ contract Monopoly  {
     
     function setupPlayer(string memory gameName) private {
         // Setup player
-        
+        //playerMapping[msg.sender] is a Player
         playerMapping[msg.sender].gameAddress = hostMapping[gameName];
         playerMapping[msg.sender].positionOnBoard = 0;
         // Monoply Rule: Each player is given $1500
@@ -53,7 +59,7 @@ contract Monopoly  {
         bool hasStarted;
         address creatorAddress;
         address[] players;
-        address currentPlayer;
+        Player currentPlayer;
     }
     
     // mapping this way means one player can only host one game
@@ -96,7 +102,11 @@ contract Monopoly  {
         require(gameMapping[msg.sender].creatorAddress != address(0), "You are not hosting any games");
         require(gameMapping[msg.sender].players.length >= 2, "Not enough players");
         gameMapping[msg.sender].hasStarted = true;
-        // DO VRF HERE TO CHOOSE WHO PLAYS FIRST AND ROLL DICE FOR PLAYER 
+        //TODO: DO VRF HERE TO CHOOSE WHO PLAYS FIRST, atm it's fifo
+        gameMapping[msg.sender].currentPlayer = playerMapping[gameMapping[msg.sender].players[0]];
+        // AND ROLL DICE FOR PLAYER
+        diceRollPlugin.rollDice();
+
     }
     
     function endGame() public {

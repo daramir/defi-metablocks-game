@@ -71,7 +71,7 @@ const GameCanvas = ({ address, mainnetProvider, userProvider, localProvider, rea
         <TileMeshgroupWithFallback />
         <Box position={[-1.2, 0, 0]} />
         <Box position={[2.5, 0, 0]} />
-        <PlayerFactory type="LedgerNano" position={[5, 1.7, 1]} localProvider={localProvider} gameEvents={gameEvents} />
+        <PlayerFactory type="LedgerNano" position={[0, 0, 0]} localProvider={localProvider} gameEvents={gameEvents} />
         <OrbitControls
           target={[
             (BoardMeasures.SQUARE_SIZE * BoardSizes.SIZE) / 2,

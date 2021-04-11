@@ -16,19 +16,21 @@ export default function Model(props) {
   const { nodes, materials } = useGLTF("/player_models/ledger/model_player_ledger.gltf");
 
   const baseScale = useMemo(() => [4, 4, 4], []);
-  // const positionPlusBase = useMemo(() => {
-  //   let [a, b, c] = props.position && typeof props.position == "array" ? props.position : [0, 0, 0];
-  //   const base = [0, 4, 0];
+  const basePosition = [0, 2, 0];
 
-  //   return [base[0] + a, base[1] + b, base[2] + c];
-  // }, [props.position]);
+  let positionPlusBase = props.position && typeof props.position == "array" ? props.position : [0, 0, 0];
+  positionPlusBase = [
+    positionPlusBase[0] + basePosition[0],
+    positionPlusBase[1] + basePosition[1],
+    positionPlusBase[2] + basePosition[2],
+  ];
 
   return (
     <a.group
       ref={group}
       {...props}
       scale={baseScale}
-      // position={positionPlusBase}
+      position={positionPlusBase}
       dispose={null}
     >
       <group rotation={[-Math.PI / 3, Math.PI / 2, Math.PI / 8]}>

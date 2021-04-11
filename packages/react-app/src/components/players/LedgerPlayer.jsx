@@ -15,7 +15,7 @@ const LedgerPlayer = props => {
 
   // keep track of a variable from the contract in the local React state:
   const crPosition = useContractReader(readContracts, "MockGameActions", "purpose", null, 100000);
-  let positionObj = crPosition == null ? props.position : JSON.parse(crPosition);
+  let positionObj = crPosition == null || crPosition == "" ? props.position : JSON.parse(crPosition);
   let newPos = null;
 
   //📟 Listen for broadcast events
@@ -34,7 +34,7 @@ const LedgerPlayer = props => {
     }
     
   } else {
-    newPos = positionObj;
+    newPos = positionObj == "" ? [0,0,0] : positionObj;
   }
   console.log(`MockGameActions purpose newPos is .....`, newPos);
 
