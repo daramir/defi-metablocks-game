@@ -15,14 +15,17 @@ contract MetablocksJoseph  {
         diceRollPlugin = DiceRoll(diceRollContract);
         
         // Create land
-        // createLand("Mayfair", 100);
-        // createLand("Melbourne", 99);
-        // createLand("Mildura", 98);
+        createLand(1, "Mayfair", 80);
+        createLand(3, "Adelaide", 80);
+        createLand(4, "City Grill", 150);
+        createLand(5, "VLINE", 98);
+        createLand(6, "Melbourne", 200);
+        createLand(8, "Mildura", 200);
         
         // Step 1: Create player who wants to host game
-        // createPlayer("jrocco2");
+        createPlayer("jrocco2");
         // Step 2: Create game
-        // createGame("Joseph's Game", 2);        
+        createGame("JoesGame", 2);        
     }
     
     // ----- PLAYERS ENTITY -----
@@ -153,21 +156,22 @@ contract MetablocksJoseph  {
 
     // ----- LAND ENTITY -----
     struct Land {
+        int32 landTileId;
         string name;
         int256 value;
         address ownerAddress;
     }
 
-    mapping(string => Land) public landMapping;
-    string[] public landList; // The order of the list is the order of Land on the Monopoly board
+    mapping(int32 => Land) public landMapping;
+    int32[] public landList; // The order of the list is the order of Land on the Monopoly board
     
-    function createLand(string memory landName, int256 landValue) private {
-        landMapping[landName] = Land(landName, landValue, owner);
-        landList.push(landName);
+    function createLand(int32 _landTileId, string memory landName, int256 landValue) private {
+        landMapping[_landTileId] = Land(_landTileId, landName, landValue, owner);
+        landList.push(_landTileId);
     }
     
-    function getLand(string memory name) public view returns (string memory, int256) {
-        return (landMapping[name].name, landMapping[name].value);
+    function getLand(int32 _landTileId) public view returns (int32, string memory, int256) {
+        return (landMapping[_landTileId].landTileId, landMapping[_landTileId].name, landMapping[_landTileId].value);
     }
     
     //  -------------------------------
