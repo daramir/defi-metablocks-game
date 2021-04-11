@@ -7,21 +7,21 @@ contract MetablocksJoseph {
     address private owner;
     DiceRoll private diceRollPlugin;
     string[] private avatars;
-    uint public gmyPosition;
+    // uint public gmyPosition;
 
     // Event Definitions
     event PlayerJoined(
-        string indexed gameName,
         address indexed playerAddress,
-        string indexed avatar,
+        string gameName,
+        string avatar,
         string message
     );
 
     // Event Definitions
     event PlayerStartedTurn(
-        string indexed gameName,
         address indexed playerAddress,
-        uint256 newPosition,
+        string gameName,
+        uint8 newPosition,
         string message
     );
 
@@ -54,7 +54,7 @@ contract MetablocksJoseph {
         string username;
         address playerAddress;
         uint256 balance;
-        uint256 positionOnBoard;
+        uint8 positionOnBoard;
         address gameHostAddress;
         string avatar;
     }
@@ -77,7 +77,7 @@ contract MetablocksJoseph {
         playerMapping[msg.sender].avatar = avatars[
             gameMapping[playerMapping[msg.sender].gameHostAddress]
                 .players
-                .length
+                .length - 1
         ];
     }
 
@@ -114,8 +114,8 @@ contract MetablocksJoseph {
 
         setupPlayer(name);
         emit PlayerJoined(
-            name,
             msg.sender,
+            name,
             playerMapping[msg.sender].avatar,
             "Let's play Metablocks"
         );
@@ -145,8 +145,8 @@ contract MetablocksJoseph {
         setupPlayer(name);
 
         emit PlayerJoined(
-            name,
             msg.sender,
+            name,
             playerMapping[msg.sender].avatar,
             "Let's do it"
         );
@@ -169,6 +169,23 @@ contract MetablocksJoseph {
         ];
         // AND ROLL DICE FOR PLAYER
         diceRollPlugin.rollDice();
+    }
+
+    function debugForceMoveBaseGame() external {
+        // require(gameMapping[hostMapping[name]].creatorAddress == msg.sender,"Only the host can start the game they have created");
+        gameMapping[msg.sender].hasStarted = true;
+        //TODO: DO VRF HERE TO CHOOSE WHO PLAYS FIRST, atm it's fifo
+        gameMapping[msg.sender].currentPlayer = playerMapping[
+            gameMapping[msg.sender].players[0]
+        ];
+        playerMapping[msg.sender].positionOnBoard++;
+        emit PlayerStartedTurn(
+            msg.sender,
+            gameMapping[playerMapping[msg.sender].gameHostAddress].name,
+            playerMapping[msg.sender].positionOnBoard,
+            // playerMapping[msg.sender].username
+            string(abi.encodePacked(playerMapping[msg.sender].username, " rolls ", uint2str(diceRollPlugin.getMostRecentRoll())))
+        );
     }
 
     function endGame() public {
@@ -246,10 +263,11 @@ contract MetablocksJoseph {
         );
 
         emit PlayerStartedTurn(
-            gameMapping[playerMapping[msg.sender].gameHostAddress].name,
             msg.sender,
+            gameMapping[playerMapping[msg.sender].gameHostAddress].name,
             playerMapping[msg.sender].positionOnBoard,
-            playerMapping[msg.sender].username
+            // playerMapping[msg.sender].username
+            string(abi.encodePacked(playerMapping[msg.sender].username, " rolls ", uint2str(diceRollPlugin.getMostRecentRoll())))
         );
     }
 
@@ -281,15 +299,26 @@ contract MetablocksJoseph {
         diceRollPlugin.rollDice();
     }
 
-    function getMyPosition() public  {
-        gmyPosition =  uint8(playerMapping[msg.sender].positionOnBoard);
+    function getCurrentPlayerAddress()
+        external
+        view
+        returns (address currentPlayAddr)
+    {
+        return
+            gameMapping[playerMapping[msg.sender].gameHostAddress]
+                .currentPlayer
+                .playerAddress;
     }
 
-    function calculateGameTile(uint256 currentPosition, uint8 diceRoll)
+    function getMyPosition() external view returns (uint8 myPosition) {
+        return uint8(playerMapping[msg.sender].positionOnBoard);
+    }
+
+    function calculateGameTile(uint8 currentPosition, uint8 diceRoll)
         private
-        returns (uint256)
+        returns (uint8)
     {
-        return (currentPosition + uint256(diceRoll)) % 40;
+        return (currentPosition + diceRoll) % 40;
     }
 
     function calculateNextPlayer(Game storage _game, address currentPlayerAddr)
@@ -355,5 +384,24 @@ contract MetablocksJoseph {
         );
     }
 
-    //  -------------------------------
+    //  ----------------HELPER---------------
+
+    function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
+    if (_i == 0) {
+        return "0";
+    }
+    uint j = _i;
+    uint len;
+    while (j != 0) {
+        len++;
+        j /= 10;
+    }
+    bytes memory bstr = new bytes(len);
+    uint k = len - 1;
+    while (_i != 0) {
+        bstr[k--] = byte(uint8(48 + _i % 10));
+        _i /= 10;
+    }
+    return string(bstr);
+}
 }

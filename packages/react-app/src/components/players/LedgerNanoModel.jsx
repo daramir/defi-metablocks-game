@@ -18,19 +18,16 @@ export default function Model(props) {
   const baseScale = useMemo(() => [4, 4, 4], []);
   const basePosition = [0, 2, 0];
 
-  let positionPlusBase = props.position && typeof props.position == "array" ? props.position : [0, 0, 0];
-  positionPlusBase = [
-    positionPlusBase[0] + basePosition[0],
-    positionPlusBase[1] + basePosition[1],
-    positionPlusBase[2] + basePosition[2],
-  ];
+  console.log(`props.position`,props.position);
+  console.log(`typeof props.position`,typeof props.position);
+
 
   return (
     <a.group
       ref={group}
       {...props}
       scale={baseScale}
-      position={positionPlusBase}
+      // position={positionPlusBase}
       dispose={null}
     >
       <group rotation={[-Math.PI / 3, Math.PI / 2, Math.PI / 8]}>

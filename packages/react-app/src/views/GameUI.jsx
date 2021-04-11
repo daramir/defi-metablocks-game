@@ -36,8 +36,13 @@ export default function GameUI({
   const [newPurpose, setNewPurpose] = useState("loading...");
 
   //📟 Listen for broadcast events
-  const mockGameEvents = useEventListener(readContracts, "MockGameActions", "SetAction", localProvider, 1);
-  console.log("📟 GameUI SetAction events:", mockGameEvents);
+  // const mockGameEvents = useEventListener(readContracts, "MockGameActions", "SetAction", localProvider, 1);
+  const playerJoinedEvents = useEventListener(readContracts, "MetablocksJoseph", "PlayerJoined", localProvider, 1);
+  const playerStTurnEvents = useEventListener(readContracts, "MetablocksJoseph", "PlayerStartedTurn", localProvider, 1);
+
+  // console.log("📟 GameUI SetAction events:", mockGameEvents);
+  console.log("📟 GameUI PlayerJoined events:", playerJoinedEvents);
+  console.log("📟 GameUI PlayerStartedTurn events:", playerStTurnEvents);
 
   return (
     <div>
@@ -46,19 +51,23 @@ export default function GameUI({
       */}
       <Row>
         <Col span={16}>
-          <GameCanvas localProvider={localProvider} gameEvents={mockGameEvents} />
+          <GameCanvas
+            localProvider={localProvider}
+            gameEvents={playerJoinedEvents}
+            gameStartTurnEvents={playerStTurnEvents}
+          />
         </Col>
         <Col span={8}>
           <div style={{ width: 480, margin: "auto", marginTop: 32, paddingBottom: 32 }}>
             <h2>Events:</h2>
             <List
               bordered
-              dataSource={mockGameEvents}
+              dataSource={[...playerJoinedEvents, ...playerStTurnEvents]}
               renderItem={item => {
                 return (
-                  <List.Item key={item.blockNumber + "_" + item.sender + "_" + item.purpose}>
-                    <Address address={item[0]} ensProvider={mainnetProvider} fontSize={16} /> =>
-                    {item[1]}
+                  <List.Item key={item.blockNumber + "_" + item.playerAddress + "_" + item.message}>
+                    <Address address={item[0]} ensProvider={mainnetProvider} fontSize={16} /> {`=>`}
+                    {item[1]} : {item.message}
                   </List.Item>
                 );
               }}
