@@ -15,6 +15,8 @@ const main = async () => {
 
   const randomNumberConsumer = await deploy("RandomNumberConsumer"); // <-- Chainllink VRF random number contract
 
+  const diceRoll = await deploy("DiceRoll"); // <-- Chainllink VRF random number contract
+
   //const yourContract = await ethers.getContractAt('YourContract', "0xaAC799eC2d00C013f1F11c37E654e59B0429DF6A") //<-- if you want to instantiate a version of a contract at a specific address!
   //const secondContract = await deploy("SecondContract")
 
