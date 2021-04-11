@@ -53,6 +53,7 @@ contract Monopoly  {
         bool hasStarted;
         address creatorAddress;
         address[] players;
+        address currentPlayer;
     }
     
     // mapping this way means one player can only host one game
