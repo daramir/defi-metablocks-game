@@ -7,6 +7,7 @@ contract MetablocksJoseph {
     address private owner;
     DiceRoll private diceRollPlugin;
     string[] private avatars;
+    uint public gmyPosition;
 
     // Event Definitions
     event PlayerJoined(
@@ -278,6 +279,10 @@ contract MetablocksJoseph {
             .currentPlayer = next;
 
         diceRollPlugin.rollDice();
+    }
+
+    function getMyPosition() public  {
+        gmyPosition =  uint8(playerMapping[msg.sender].positionOnBoard);
     }
 
     function calculateGameTile(uint256 currentPosition, uint8 diceRoll)
