@@ -40,6 +40,7 @@ contract MetablocksJoseph {
 
         // Create available avatars
         avatars.push("LedgerNano");
+        avatars.push("BTCCoin");
         avatars.push("BowTie");
         avatars.push("Ghost");
 

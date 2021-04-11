@@ -16,10 +16,10 @@ export default function Model(props) {
   const { nodes, materials } = useGLTF("/player_models/ledger/model_player_ledger.gltf");
 
   const baseScale = useMemo(() => [4, 4, 4], []);
-  const basePosition = [0, 2, 0];
+  // const basePosition = [0, 2, 0];
 
-  console.log(`props.position`,props.position);
-  console.log(`typeof props.position`,typeof props.position);
+  // console.log(`props.position`,props.position);
+  // console.log(`typeof props.position`,typeof props.position);
 
 
   return (

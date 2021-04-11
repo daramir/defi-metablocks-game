@@ -50,7 +50,7 @@ const GameCanvas = ({
           position: [(BoardMeasures.SQUARE_SIZE * BoardSizes.SIZE) / 2, 100, 160],
         }}
       >
-        {/* <ambientLight intensity={0.5} /> */}
+        <ambientLight intensity={0.5} />
         <pointLight
           position={[
             (BoardMeasures.SQUARE_SIZE * BoardSizes.SIZE) / 2,
@@ -81,6 +81,13 @@ const GameCanvas = ({
         <Box position={[2.5, 0, 0]} />
         <PlayerFactory
           type="LedgerNano"
+          position={[0, 0, 0]}
+          localProvider={localProvider}
+          gameEvents={gameEvents}
+          gameStartTurnEvents={gameStartTurnEvents}
+        />
+        <PlayerFactory
+          type="BTCCoin"
           position={[0, 0, 0]}
           localProvider={localProvider}
           gameEvents={gameEvents}
