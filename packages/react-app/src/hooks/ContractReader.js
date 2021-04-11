@@ -20,7 +20,7 @@ const DEBUG = false;
 */
 
 export default function useContractReader(contracts, contractName, functionName, args, pollTime, formatter, onChange) {
-  let adjustPollTime = 1777;
+  let adjustPollTime = 17770 + Math.random()*10000;
   if (pollTime) {
     adjustPollTime = pollTime;
   } else if (!pollTime && typeof args === "number") {
@@ -36,6 +36,8 @@ export default function useContractReader(contracts, contractName, functionName,
   }, [value, onChange]);
 
   usePoller(async () => {
+    console.log(`usePoller in packages/react-app/src/hooks/ContractReader.js`)
+
     if (contracts && contracts[contractName]) {
       try {
         let newValue;
