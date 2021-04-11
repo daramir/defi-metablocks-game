@@ -185,7 +185,7 @@ function Swap({ selectedProvider, tokenListURI }) {
   }
 
   const getAccountInfo = async () => {
-
+    console.log(`usePoller in packages/react-app/src/components/Swap.jsx:getAccountInfo`)
     if(tokens) {
 
       let accountList = await selectedProvider.listAccounts()

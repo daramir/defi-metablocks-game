@@ -46,9 +46,10 @@ export default function Balance(props) {
 
   usePoller(
     () => {
+      console.log(`usePoller in packages/react-app/src/components/Balance.jsx`)
       getBalance();
     },
-    props.pollTime ? props.pollTime : 1999,
+    props.pollTime ? props.pollTime : 15000 + Math.random()*10000,
   );
 
   let floatBalance = parseFloat("0.00");
