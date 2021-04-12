@@ -4,10 +4,6 @@
 ---
 
 
-#### [ 🏃‍♀️ Quick Start ](https://github.com/austintgriffith/scaffold-eth#%EF%B8%8F-quick-start)
-
-#### [ 🔭 Learning Solidity ](https://github.com/austintgriffith/scaffold-eth#-learning-solidity)
-
 #### [ 📡 Deploy ](https://github.com/austintgriffith/scaffold-eth#-deploy)
 
 #### [ 📺 Frontend](https://github.com/austintgriffith/scaffold-eth#-frontend)
@@ -37,16 +33,7 @@
 - [ 🔶 Infura ](https://github.com/austintgriffith/scaffold-eth#-using-infura)
 -  🟪 [ Blocknative ](https://github.com/austintgriffith/scaffold-eth#-blocknative)
 
-|-   <B> [ 📠 Legacy Content ](https://github.com/austintgriffith/scaffold-eth#-legacy-content) </B> - | - <B> [ 💬 Support Chat ](https://github.com/austintgriffith/scaffold-eth#-support-chat) </B> -|
 
-
----
-
-[![ethdenvervideo](https://user-images.githubusercontent.com/2653167/109873369-e2c58c00-7c2a-11eb-8adf-0ec4b8dcae1e.png)](https://youtu.be/33gnKe7ttCc?t=477)
-
-
----
----
 ---
 
 # 🏃‍♀️ Quick Start
